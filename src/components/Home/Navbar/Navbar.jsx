@@ -1,10 +1,20 @@
 import { Menu } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../utilities/FirebaseProvider";
 
 function Navbar() {
-  const { name } = useAuth();
+  const { name, logout } = useAuth();
+  const navigate = useNavigate();
+
+  async function handleLogout() {
+    try {
+      logout();
+      navigate("/login");
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   return (
     <Menu
@@ -29,7 +39,7 @@ function Navbar() {
             Add New Post
           </Link>
         </Menu.Item>
-        <Menu.Item>Logout</Menu.Item>
+        <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
       </Menu.SubMenu>
     </Menu>
   );
